@@ -75,8 +75,8 @@ def main():
                     pf = Platform(x,y)
                     entities.add(pf)
                     platforms.append(pf)
-                x += PLATFORM_WIDTH #блоки платформы ставятся на ширине блоков
-            y += PLATFORM_HEIGHT    #то же самое и с высотой
+                x += PLATFORM_WIDTH
+            y += PLATFORM_HEIGHT
             x = 0
 
         tank.update(left, right, up, down, platforms)

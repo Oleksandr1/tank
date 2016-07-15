@@ -22,9 +22,15 @@ class Tank(sprite.Sprite):
         self.image.fill(Color(COLOR))
         self.rect = Rect(x,y,WIDTH,HEIGHT)
 
-        self.barrel = Surface((BARREL_WIDTH, BARREL_HEIGHT))
+        self.barrel = Surface((BARREL_WIDTH,BARREL_HEIGHT))
         self.barrel.fill(Color(BARREL_COLOR))
-        #self.barrel_rect = Rect((x/2- BARREL_WIDTH/2),(y/2 - BARREL_HEIGHT/2),BARREL_WIDTH,BARREL_HEIGHT)
+        #self.image.blit(self.barrel,(0,0))
+
+        if self.side == 'up':
+            self.image.blit(self.barrel,( (WIDTH/2)-BARREL_WIDTH/2,0))
+        if self.side == 'down':
+            self.image.blit(self.barrel,( (WIDTH/2)-BARREL_WIDTH/2,BARREL_HEIGHT))
+
 
     def update(self, left, right, up, down, platforms):
         if left:
@@ -53,6 +59,11 @@ class Tank(sprite.Sprite):
 
         if not(up or down):
             self.yvel = 0
+
+        if self.side == 'up':
+            self.image.blit(self.barrel,( (WIDTH/2)-BARREL_WIDTH/2,0))
+        if self.side == 'down':
+            self.image.blit(self.barrel,( (WIDTH/2)-BARREL_WIDTH/2,WIDTH-BARREL_HEIGHT))
 
         self.rect.x +=self.xvel
         self.collide(self.xvel,0,platforms)
