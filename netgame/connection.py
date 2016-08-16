@@ -1,13 +1,17 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
+
 #from main import GameSpace
-from twisted.internet.protocol import Factory
 from twisted.internet.protocol import ClientFactory
 from twisted.internet.protocol import Protocol
-from twisted.protocols.basic import LineReceiver
 
 from twisted.internet import reactor
-from twisted.internet.defer import DeferredQueue
 from twisted.internet.task import LoopingCall
 import cPickle
+
+import sys
 
 ## Connection factory for the client
 class ClientConnFactory(ClientFactory):
@@ -35,25 +39,26 @@ class ClientConnection(Protocol):
 		print "connection made"
 		#self.dataReceived(self)
 		self.gs.play_game()
-		self.gs.sendData("Connected")
-		#lc = LoopingCall(self.gs.tick)
+		#self.gs.sendData("Connected")
 		lc = LoopingCall(self.gs.tick)
 		lc.start(1/60)
 		print 'AFTER START LOOOP'
 
 	# When you get data, send it to the gamespace
 	def dataReceived(self, data):
-		print "GET", data
 		tmp = cPickle.loads(data)
+		print "GET", tmp
 		self.gs.getData(tmp)
 		#self.gs.getData(data)
 
 	# Send data through the connection
 	def send(self, data):
-		print 'try to send:', data
-		print self.transport.getPeer()
-		s = cPickle.dumps(data)
+#		d = {'data':data, 'type':'game'}
+#		print 'try to send:', d
+		s = cPickle.dumps(data,2)
+		print sys.getsizeof(data), '    ', sys.getsizeof(s)
 		self.transport.write(s)
 	# connection lost
+
 	def connectionLost(self, reason):
 		print "lost connection"
