@@ -10,13 +10,14 @@ from Bullet import *
 (DIR_UP, DIR_DOWN, DIR_RIGHT, DIR_LEFT) = range(4)
 
 class Tank(sprite.Sprite):
-    def __init__(self,topleft):
+    def __init__(self,topleft,  ID = None):
         sprite.Sprite.__init__(self)
         self.tank_speedX = 0 #скорость перемещения X. 0 - стоять на месте
         self.tank_speedY = 0 #скорость перемещения Y. 0 - стоять на месте
         self.move_speed = 3 #базовая скорость
         self.tank_startX = topleft [0] # Начальная позиция Х, пригодится когда будем переигрывать уровень
         self.tank_startY = topleft [1] #___----____----____
+        self.id = ID
 
     ##**********************************************************
 
@@ -45,6 +46,7 @@ class Player(Tank):
         self.rect = self.image.get_rect()
         self.rect.topleft = topleft
         self.bullet = pygame.sprite.Group()
+
 
 
     def shot_bull(self):
